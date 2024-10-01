@@ -1,12 +1,18 @@
 const express = require('express');
-const router = express.Router();
-const productController = require('../controllers/productController');
+const bodyParser = require('body-parser');
+const productRoutes = require('./routes/productRoutes');
+
+const app = express();
+const port = 3000;
+
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-router.post('/createProduct', productController.createProduct);
-router.post('/supplyProduct', productController.supplyProduct);
-router.post('/wholesaleProduct', productController.wholesaleProduct);
-router.get('/queryProduct/:productID', productController.queryProduct);
-router.post('/sellProduct', productController.sellProduct);
+app.use('/api', productRoutes);
 
-module.exports = router;
+// Start the server
+app.listen(port, () => {
+    console.log(`API server running at http://localhost:${port}`);
+});
